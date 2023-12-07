@@ -6,10 +6,11 @@ import java.io.InputStreamReader;
 
 
 public class Main {
+    static int i =0;
     public static void main(String[] args) {
         try {
-            // Caminho para o arquivo .txt
-            String filePath = "mt5.txt";
+            String mt = args[0];
+            String filePath = args[1];
 
             // Criando um leitor para o arquivo
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
@@ -25,8 +26,7 @@ public class Main {
                     String result = parts[1];
 
                     // Gerando o comando
-                    String command = "java -jar MT.jar mt5.json " + palavra;
-
+                    String command = "java -jar MT.jar "+ mt +" "+ palavra;
                     // Executando o comando e lendo a saída
                     ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
                     Process process = processBuilder.start();
@@ -34,10 +34,10 @@ public class Main {
                     BufferedReader readerResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     String output = readerResult.readLine();
 
-                    // Imprimindo o resultado esperado e o comando
-                    System.out.println("Comando: " + command + " - Resposta esperada: " + result + " - Resposta obtida: "+output);
-
-
+                    if(!(result.equals(output))){
+                        System.out.println("erro: "+ i);
+                        i++;
+                    }
                     // Aguardando o término do processo
                     process.waitFor();
                 }
